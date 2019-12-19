@@ -1,0 +1,37 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="SettingCell">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/setting_cell_min_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="SettingImageIcon">
+        <item name="android:layout_width">@dimen/setting_cell_icon_size</item>
+        <item name="android:layout_height">@dimen/setting_cell_icon_size</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginStart">@dimen/setting_cell_margin</item>
+        <item name="android:layout_marginEnd">@dimen/setting_cell_margin</item>
+    </style>
+
+    <style name="SettingText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorSettingCellText</item>
+        <item name="android:textSize">@dimen/setting_cell_text_size</item>
+    </style>
+
+
+
+</resources>
