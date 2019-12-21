@@ -1,8 +1,8 @@
-package com.example.myapplication.utills;
+package com.goat.youtubeviewer.utills;
 
 import android.util.Log;
 
-import com.example.myapplication.BuildConfig;
+import com.goat.youtubeviewer.BuildConfig;
 
 public class DebugLog {
 

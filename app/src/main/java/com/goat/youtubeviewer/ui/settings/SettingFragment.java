@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.settings;
+package com.goat.youtubeviewer.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.myapplication.BuildConfig;
-import com.example.myapplication.R;
+import com.goat.youtubeviewer.BuildConfig;
+import com.goat.youtubeviewer.R;
 
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 

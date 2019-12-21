@@ -1,14 +1,16 @@
-package com.example.myapplication.ui.settings;
+package com.goat.youtubeviewer.ui.notifications;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingViewModel extends ViewModel {
+public class NotificationsViewModel extends ViewModel {
+
     private MutableLiveData<String> mText;
-    public SettingViewModel() {
+
+    public NotificationsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is setting fragment");
+        mText.setValue("This is notifications fragment");
     }
 
     public LiveData<String> getText() {

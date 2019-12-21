@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.home;
+package com.goat.youtubeviewer.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.myapplication.R;
-import com.example.myapplication.network.YouTubeSearchRequest;
-import com.example.myapplication.network.YouTubeSearchResponse;
+import com.goat.youtubeviewer.R;
+import com.goat.youtubeviewer.network.YouTubeSearchRequest;
+import com.goat.youtubeviewer.network.YouTubeSearchResponse;
 
 public class HomeFragment extends Fragment {
 

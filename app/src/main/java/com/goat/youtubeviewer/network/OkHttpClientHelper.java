@@ -1,4 +1,4 @@
-package com.example.myapplication.network;
+package com.goat.youtubeviewer.network;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

@@ -1,8 +1,8 @@
-package com.example.myapplication.network;
+package com.goat.youtubeviewer.network;
 
 import androidx.annotation.NonNull;
 
-import com.example.myapplication.utills.DebugLog;
+import com.goat.youtubeviewer.utills.DebugLog;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -10,9 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 abstract public class OkHttpRequestBase {
@@ -59,7 +57,7 @@ abstract public class OkHttpRequestBase {
         }
         Gson gson = new Gson();
         return gson.fromJson(responseBody, getClazz());
-        
+
     }
 
     protected HashMap<String, String> getHeaders() {

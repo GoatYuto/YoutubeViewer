@@ -1,10 +1,10 @@
-package com.example.myapplication.network;
+package com.goat.youtubeviewer.network;
 
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.example.myapplication.utills.DebugLog;
+import com.goat.youtubeviewer.utills.DebugLog;
 import com.google.gson.annotations.SerializedName;
 
 public class YouTubeSearchResponse {

@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.notifications;
+package com.goat.youtubeviewer.ui.notifications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.myapplication.R;
+import com.goat.youtubeviewer.R;
 
 public class NotificationsFragment extends Fragment {
 

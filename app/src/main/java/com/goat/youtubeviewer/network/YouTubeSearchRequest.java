@@ -1,8 +1,8 @@
-package com.example.myapplication.network;
+package com.goat.youtubeviewer.network;
 
 import androidx.annotation.NonNull;
 
-import com.example.myapplication.BuildConfig;
+import com.goat.youtubeviewer.BuildConfig;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.goat.youtubeviewer;
 
 import org.junit.Test;
 
