@@ -30,6 +30,11 @@ public class YouTubeSearchRequest extends OkHttpRequestBase{
         return params;
     }
 
+    @Override
+    Class<?> getClazz() {
+        return YouTubeSearchResponse.class;
+    }
+
     @NonNull
     @Override
     protected HttpMethod getMethod() {

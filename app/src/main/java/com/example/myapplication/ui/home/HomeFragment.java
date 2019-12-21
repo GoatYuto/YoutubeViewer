@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myapplication.R;
 import com.example.myapplication.network.YouTubeSearchRequest;
+import com.example.myapplication.network.YouTubeSearchResponse;
 
 public class HomeFragment extends Fragment {
 
@@ -40,7 +41,10 @@ public class HomeFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new YouTubeSearchRequest().createRequest();
+               Object response =  new YouTubeSearchRequest().createRequest();
+                if(response instanceof YouTubeSearchResponse) {
+                    YouTubeSearchResponse youTubeSearchResponse = (YouTubeSearchResponse) response;
+                }
             }
         }).start();
     }

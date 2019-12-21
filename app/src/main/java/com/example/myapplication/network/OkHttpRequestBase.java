@@ -3,6 +3,7 @@ package com.example.myapplication.network;
 import androidx.annotation.NonNull;
 
 import com.example.myapplication.utills.DebugLog;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ abstract public class OkHttpRequestBase {
         DELETE,
     }
 
-    public void createRequest() {
+    public Object createRequest() {
         Request.Builder builder = new Request.Builder();
         HttpMethod method = getMethod();
         HashMap<String, String> headers = getHeaders();
@@ -37,7 +38,7 @@ abstract public class OkHttpRequestBase {
         }
 
 
-        if(method == HttpMethod.GET) {
+        if (method == HttpMethod.GET) {
             HttpUrl.Builder httpBuilder = HttpUrl.parse(getURL()).newBuilder();
             HashMap<String, String> params = getParams();
             if (params != null) {
@@ -49,14 +50,16 @@ abstract public class OkHttpRequestBase {
         }
         Request request = builder.build();
         Response response = null;
+        String responseBody = null;
         try {
             response = OkHttpClientHelper.getClient().newCall(request).execute();
-            DebugLog.d(TAG, "[createRequest]response = " + response.body().string());
+            responseBody = response.body().string();
         } catch (IOException e) {
 
         }
-
-
+        Gson gson = new Gson();
+        return gson.fromJson(responseBody, getClazz());
+        
     }
 
     protected HashMap<String, String> getHeaders() {
@@ -69,6 +72,8 @@ abstract public class OkHttpRequestBase {
         HashMap<String, String> params = new HashMap<>();
         return params;
     }
+
+    abstract Class<?> getClazz();
 
     @NonNull
     abstract protected HttpMethod getMethod();
