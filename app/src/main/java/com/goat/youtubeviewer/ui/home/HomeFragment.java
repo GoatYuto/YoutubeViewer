@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.goat.youtubeviewer.MainActivity;
 import com.goat.youtubeviewer.R;
 import com.goat.youtubeviewer.network.YouTubeSearchRequest;
 import com.goat.youtubeviewer.network.YouTubeSearchResponse;
@@ -20,32 +23,63 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
 
+    private RecyclerView mRecyclerView;
+    private YoutubeListAdapter mAdapter;
+
+    private YouTubeSearchResponse mResponse;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        mRecyclerView = root.findViewById(R.id.recycler_view);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new YoutubeListAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //recyclerの末尾まで来た時の処理
+                if (!recyclerView.canScrollVertically(1)) {
+                    requestYoutubeSearch ();
+                }
             }
         });
+
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        requestYoutubeSearch();
+    }
+
+    private void requestYoutubeSearch () {
         new Thread(new Runnable() {
             @Override
             public void run() {
-               Object response =  new YouTubeSearchRequest().createRequest();
+                YouTubeSearchRequest request = new YouTubeSearchRequest();
+                if(mResponse != null && mResponse.getNextPageToken() != null) {
+                    request.setPageToken(mResponse.getNextPageToken());
+                }
+
+                Object response =  request.createRequest();
                 if(response instanceof YouTubeSearchResponse) {
-                    YouTubeSearchResponse youTubeSearchResponse = (YouTubeSearchResponse) response;
+                    mResponse= (YouTubeSearchResponse) response;
+                    mAdapter.addData(mResponse);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
                 }
             }
         }).start();
+
     }
 }

@@ -1,5 +1,6 @@
 package com.goat.youtubeviewer.network;
 
+import android.text.Html;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
@@ -169,7 +170,7 @@ public class YouTubeSearchResponse {
             private String mTitle;
 
             public String getTitle() {
-                return mTitle;
+                return Html.fromHtml(mTitle).toString();
             }
 
             @SerializedName("description")
@@ -235,6 +236,7 @@ public class YouTubeSearchResponse {
                     String getTAG() {
                         return Default.class.getSimpleName();
                     }
+
                 }
 
                 public class Medium extends ThumbnailSizeBase {
@@ -251,7 +253,7 @@ public class YouTubeSearchResponse {
                     }
                 }
 
-                abstract class ThumbnailSizeBase {
+               public abstract class ThumbnailSizeBase {
                     @SerializedName("url")
                     private String mUrl;
                     @SerializedName("width")

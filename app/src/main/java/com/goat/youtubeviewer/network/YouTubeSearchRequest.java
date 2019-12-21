@@ -11,6 +11,7 @@ public class YouTubeSearchRequest extends OkHttpRequestBase{
 
     private static final int MAX_RESULT_DEFAULT = 50;
     private int mMaxResult = MAX_RESULT_DEFAULT;
+    private String mPageToken;
 
     public void setMaxResult (int maxResult) {
         //maxResultに指定できる範囲は0から50まで
@@ -19,6 +20,11 @@ public class YouTubeSearchRequest extends OkHttpRequestBase{
         }
         mMaxResult = maxResult;
     }
+
+    public void setPageToken (String pageToken) {
+        mPageToken = pageToken;
+    }
+
     @Override
     protected HashMap<String, String> getParams() {
         HashMap<String, String> params = super.getParams();
@@ -26,6 +32,9 @@ public class YouTubeSearchRequest extends OkHttpRequestBase{
         params.put("part", "snippet");
         params.put("q", "もこう");
         params.put("maxResults", Integer.toString(mMaxResult));
+        if (mPageToken != null) {
+            params.put("pageToken", mPageToken);
+        }
         params.put("key", BuildConfig.YOUTUBE_API_KEY);
         return params;
     }
