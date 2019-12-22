@@ -8,4 +8,6 @@
     <color name="colorSettingCellText">#000000</color>
 
     <color name="colorYoutubeSearchListCellLine">#a9a9a9</color>
+
+    <color name="colorFastScrollerTrackColor">#80999999</color>
 </resources>
