@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import com.goat.youtubeviewer.utills.DebugLog;
 import com.google.gson.annotations.SerializedName;
 
-public class YouTubeSearchResponse {
+public class YouTubeSearchResponse extends YoutubeResponseBase {
 
     @SerializedName("kind")
     private String mKind;

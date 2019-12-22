@@ -1,10 +1,12 @@
 package com.goat.youtubeviewer.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -44,11 +46,10 @@ public class HomeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 //recyclerの末尾まで来た時の処理
                 if (!recyclerView.canScrollVertically(1)) {
-                    requestYoutubeSearch ();
+                    requestYoutubeSearch();
                 }
             }
         });
-
         return root;
     }
 
@@ -58,23 +59,32 @@ public class HomeFragment extends Fragment {
         requestYoutubeSearch();
     }
 
-    private void requestYoutubeSearch () {
+    private void requestYoutubeSearch() {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Activity activity = getActivity();
+                if (activity == null || !isAdded()) {
+                    return;
+                }
+
                 YouTubeSearchRequest request = new YouTubeSearchRequest();
-                if(mResponse != null && mResponse.getNextPageToken() != null) {
+                if (mResponse != null && mResponse.getNextPageToken() != null) {
                     request.setPageToken(mResponse.getNextPageToken());
                 }
 
-                Object response =  request.createRequest();
-                if(response instanceof YouTubeSearchResponse) {
-                    mResponse= (YouTubeSearchResponse) response;
-                    mAdapter.addData(mResponse);
-                    getActivity().runOnUiThread(new Runnable() {
+                Object response = request.createRequest();
+                if (response instanceof YouTubeSearchResponse) {
+                    mResponse = (YouTubeSearchResponse) response;
+                    activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mAdapter.notifyDataSetChanged();
+                            if (mResponse.isSuccess()) {
+                                mAdapter.addData(mResponse);
+                                mAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(getContext(), R.string.common_error_massage, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }
