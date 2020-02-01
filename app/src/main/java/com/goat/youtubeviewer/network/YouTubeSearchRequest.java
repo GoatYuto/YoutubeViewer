@@ -4,10 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.goat.youtubeviewer.BuildConfig;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
-public class YouTubeSearchRequest extends OkHttpRequestBase{
-    public YouTubeSearchRequest(){};
+public class YouTubeSearchRequest extends OkHttpRequestBase<YouTubeSearchResponse>{
 
     private static final int MAX_RESULT_DEFAULT = 50;
     private int mMaxResult = MAX_RESULT_DEFAULT;
@@ -25,6 +26,7 @@ public class YouTubeSearchRequest extends OkHttpRequestBase{
         mPageToken = pageToken;
     }
 
+    @NonNull
     @Override
     protected HashMap<String, String> getParams() {
         HashMap<String, String> params = super.getParams();
@@ -39,10 +41,12 @@ public class YouTubeSearchRequest extends OkHttpRequestBase{
         return params;
     }
 
+    @NonNull
     @Override
-    Class<?> getClazz() {
+    Class<? extends YouTubeSearchResponse> getClazz() {
         return YouTubeSearchResponse.class;
     }
+
 
     @NonNull
     @Override

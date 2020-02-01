@@ -2,8 +2,9 @@ package com.goat.youtubeviewer.network;
 
 import com.google.gson.annotations.SerializedName;
 
-public class YoutubeResponseBase {
+public class YoutubeResponseBase extends ApiResponseBase {
 
+    @Override
     public boolean isSuccess () {
         return mError == null;
     }
