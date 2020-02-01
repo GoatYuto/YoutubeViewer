@@ -1,6 +1,7 @@
 package com.goat.youtubeviewer.ui.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.goat.youtubeviewer.BuildConfig;
 import com.goat.youtubeviewer.R;
 import com.goat.youtubeviewer.network.YouTubeSearchRequest;
 import com.goat.youtubeviewer.network.YouTubeSearchResponse;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 public class HomeFragment extends Fragment {
 
@@ -35,7 +38,12 @@ public class HomeFragment extends Fragment {
         mRecyclerView = root.findViewById(R.id.recycler_view);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new YoutubeListAdapter();
+        mAdapter = new YoutubeListAdapter(new YoutubeListAdapter.RecyclerTapEvent() {
+            @Override
+            public void onGetTapVideoId(String videoId) {
+                playVideo(videoId);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -90,5 +98,14 @@ public class HomeFragment extends Fragment {
             }
         }).start();
 
+    }
+
+    private void playVideo(String videoId) {
+        Activity activity = getActivity();
+        if (activity == null || !isAdded()) {
+            return;
+        }
+        Intent intent = YouTubeStandalonePlayer.createVideoIntent(activity, BuildConfig.YOUTUBE_API_KEY, videoId);
+        startActivity(intent);
     }
 }

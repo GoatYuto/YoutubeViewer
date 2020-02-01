@@ -29,12 +29,6 @@ public class SettingFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_setting, container, false);
 
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), BuildConfig.YOUTUBE_API_KEY,"uYzS7esYB_A");
-        startActivity(intent);
-    }
+    
 }
 

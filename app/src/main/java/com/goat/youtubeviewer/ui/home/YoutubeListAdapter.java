@@ -19,35 +19,48 @@ import java.util.Arrays;
 
 public class YoutubeListAdapter extends RecyclerView.Adapter<YoutubeListAdapter.YoutubeListViewHolder> {
 
+    private RecyclerTapEvent mRecyclerTapEvent;
     private ArrayList<YouTubeSearchResponse.Item> mDataList;
 
+    public interface RecyclerTapEvent {
+        void onGetTapVideoId(String videoId);
+    }
+
+    public YoutubeListAdapter(RecyclerTapEvent tapEvent) {
+        mDataList = new ArrayList<>();
+        mRecyclerTapEvent = tapEvent;
+    }
+
+
     public void addData(YouTubeSearchResponse response) {
-        if(mDataList == null) {
-            mDataList = new ArrayList<>();
-        }
         mDataList.addAll(Arrays.asList(response.getItems()));
     }
 
     @NonNull
     @Override
     public YoutubeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_youtube_search_list, parent,false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_youtube_search_list, parent, false);
         return new YoutubeListViewHolder(inflate);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull YoutubeListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull YoutubeListViewHolder holder, final int position) {
         YouTubeSearchResponse.Item item = mDataList.get(position);
         YouTubeSearchResponse.Item.Snippet snippet = item.getSnippet();
         Uri uri = Uri.parse(snippet.getThumbnails().getDefaultThumbnail().getUrl());
         Glide.with(holder.mThumbnailView).load(uri).into(holder.mThumbnailView);
         holder.mVideoTitle.setText(snippet.getTitle());
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String videoId = mDataList.get(position).getId().getVideoId();
+                mRecyclerTapEvent.onGetTapVideoId(videoId);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-
         return mDataList != null ? mDataList.size() : 0;
     }
 
