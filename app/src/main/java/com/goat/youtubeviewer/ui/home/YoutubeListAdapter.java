@@ -47,7 +47,7 @@ public class YoutubeListAdapter extends RecyclerView.Adapter<YoutubeListAdapter.
     public void onBindViewHolder(@NonNull YoutubeListViewHolder holder, final int position) {
         YouTubeSearchResponse.Item item = mDataList.get(position);
         YouTubeSearchResponse.Item.Snippet snippet = item.getSnippet();
-        Uri uri = Uri.parse(snippet.getThumbnails().getDefaultThumbnail().getUrl());
+        Uri uri = Uri.parse(snippet.getThumbnails().getHighThumbnail().getUrl());
         Glide.with(holder.mThumbnailView).load(uri).into(holder.mThumbnailView);
         holder.mVideoTitle.setText(snippet.getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
