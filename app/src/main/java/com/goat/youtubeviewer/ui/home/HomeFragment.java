@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.goat.youtubeviewer.BuildConfig;
+import com.goat.youtubeviewer.MainActivity;
 import com.goat.youtubeviewer.R;
 import com.goat.youtubeviewer.network.YouTubeSearchRequest;
 import com.goat.youtubeviewer.network.YouTubeSearchResponse;
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     private YoutubeListAdapter mAdapter;
 
     private YouTubeSearchResponse mResponse;
+    private String mQuery;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,20 +54,31 @@ public class HomeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 //recyclerの末尾まで来た時の処理
                 if (!recyclerView.canScrollVertically(1)) {
-                    requestYoutubeSearch();
+                    requestYoutubeSearch(mQuery);
                 }
             }
         });
+
+        Activity activity = getActivity();
+        if(activity instanceof MainActivity) {
+            ((MainActivity) activity).setListener(new MainActivity.SearchViewListener() {
+                @Override
+                public void onQuery(String query) {
+                    mQuery = query;
+                    requestYoutubeSearch(mQuery);
+                }
+            });
+        }
+
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        requestYoutubeSearch();
     }
 
-    private void requestYoutubeSearch() {
+    private void requestYoutubeSearch(final String query) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -75,6 +88,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 YouTubeSearchRequest request = new YouTubeSearchRequest();
+                request.setKeyWord(mQuery);
                 if (mResponse != null && mResponse.getNextPageToken() != null) {
                     request.setPageToken(mResponse.getNextPageToken());
                 }

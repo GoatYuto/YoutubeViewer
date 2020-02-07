@@ -8,23 +8,29 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-public class YouTubeSearchRequest extends OkHttpRequestBase<YouTubeSearchResponse>{
+public class YouTubeSearchRequest extends OkHttpRequestBase<YouTubeSearchResponse> {
 
     private static final int MAX_RESULT_DEFAULT = 50;
     private int mMaxResult = MAX_RESULT_DEFAULT;
     private String mPageToken;
+    private String mKeyWord = "もこう";
 
-    public void setMaxResult (int maxResult) {
+    public void setKeyWord(String keyWord) {
+        mKeyWord = keyWord;
+    }
+
+    public void setMaxResult(int maxResult) {
         //maxResultに指定できる範囲は0から50まで
-        if(maxResult > 50 || 0 > maxResult) {
+        if (maxResult > 50 || 0 > maxResult) {
             return;
         }
         mMaxResult = maxResult;
     }
 
-    public void setPageToken (String pageToken) {
+    public void setPageToken(String pageToken) {
         mPageToken = pageToken;
     }
+
 
     @NonNull
     @Override
@@ -32,7 +38,7 @@ public class YouTubeSearchRequest extends OkHttpRequestBase<YouTubeSearchRespons
         HashMap<String, String> params = super.getParams();
         params.put("type", "video");
         params.put("part", "snippet");
-        params.put("q", "もこう");
+        params.put("q", mKeyWord);
         params.put("maxResults", Integer.toString(mMaxResult));
         if (mPageToken != null) {
             params.put("pageToken", mPageToken);
