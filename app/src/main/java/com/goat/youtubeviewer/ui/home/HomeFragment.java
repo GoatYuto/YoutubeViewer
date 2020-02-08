@@ -3,6 +3,7 @@ package com.goat.youtubeviewer.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,18 +55,21 @@ public class HomeFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 //recyclerの末尾まで来た時の処理
                 if (!recyclerView.canScrollVertically(1)) {
-                    requestYoutubeSearch(mQuery);
+                    requestYoutubeSearch();
                 }
             }
         });
 
         Activity activity = getActivity();
-        if(activity instanceof MainActivity) {
+        if (activity instanceof MainActivity) {
             ((MainActivity) activity).setListener(new MainActivity.SearchViewListener() {
                 @Override
                 public void onQuery(String query) {
+                    if (isQueryChanged(query)) {
+                        onResetAdaper();
+                    }
                     mQuery = query;
-                    requestYoutubeSearch(mQuery);
+                    requestYoutubeSearch();
                 }
             });
         }
@@ -78,7 +82,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void requestYoutubeSearch(final String query) {
+    private void requestYoutubeSearch() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -121,5 +125,22 @@ public class HomeFragment extends Fragment {
         }
         Intent intent = YouTubeStandalonePlayer.createVideoIntent(activity, BuildConfig.YOUTUBE_API_KEY, videoId);
         startActivity(intent);
+    }
+
+
+    /**
+     * 検索キーワードが変更され、adapterの内容をリセットする必要があるかどうかを返却する
+     *
+     * @param query 検索ボックスに入力されたキーワード
+     * @return true　検索キーワードが変更されている false 前回から入力内容に変更はない
+     */
+    private boolean isQueryChanged(String query) {
+        return mQuery != null && !TextUtils.equals(query, mQuery);
+    }
+
+    private void onResetAdaper() {
+        mAdapter.resetAdapter();
+        mAdapter.notifyDataSetChanged();
+        mResponse = null;
     }
 }

@@ -36,6 +36,10 @@ public class YoutubeListAdapter extends RecyclerView.Adapter<YoutubeListAdapter.
         mDataList.addAll(Arrays.asList(response.getItems()));
     }
 
+    public void resetAdapter() {
+        mDataList.clear();
+    }
+
     @NonNull
     @Override
     public YoutubeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -61,7 +65,7 @@ public class YoutubeListAdapter extends RecyclerView.Adapter<YoutubeListAdapter.
 
     @Override
     public int getItemCount() {
-        return mDataList != null ? mDataList.size() : 0;
+        return mDataList.size();
     }
 
     public static class YoutubeListViewHolder extends RecyclerView.ViewHolder {
